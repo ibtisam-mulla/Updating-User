@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+	<bean id="user" class="updatePro.User"></bean>
+	<bean id="dao" class="updatePro.UserDao">
+	<property name="temp" ref="hibernatetemp" ></property>
+	</bean>   
+	 <!-- HibernateTemplate with session factory-->
+	 <bean id="hibernatetemp" class="org.springframework.orm.hibernate3.HibernateTemplate">
+	 <property name="sessionFactory" ref="sefref"></property>
+	 </bean>
+	 
+	 <!-- session factory with the datasource -->
+	 <bean id="sefref" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	 <property name="dataSource" ref="ds"></property>
+	 <property name="packagesToScan" value="updatePro"></property>
+	 <property name="hibernateProperties">
+	 <props>
+	 <prop key="hibernate.dialect"> org.hibernate.dialect.MySQLDialect</prop>
+	 <prop key="hibernate.hbm2ddl.auto">update</prop>
+	 <prop key="hibernate.show_sql">true</prop>
+	 </props>
+	 </property>
+	 </bean>
+	 <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+	<property name="url" value="jdbc:mysql://localhost:3306/db"></property>
+	<property name="username" value="root"></property>
+	<property name="password" value="root"></property>
+	</bean>
+	 
+	  </beans>
